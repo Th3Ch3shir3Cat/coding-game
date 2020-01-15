@@ -15,6 +15,7 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
     private JButton buttonStart;
     private PictureHanoi panelHanoi;
 
+
     public MainHanoi(){
         super("Ханойские башни");
         configuration();
@@ -36,7 +37,7 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
 
         JPanel panel = new JPanel();
 
-        labelNumberDisks = new JLabel("Number of discs");
+        labelNumberDisks = new JLabel("Кол-во дисков");
         panel.add(labelNumberDisks);
 
 
@@ -45,18 +46,19 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
         panel.add(spinnerNumberDisks);
 
 
-        buttonStart = new JButton("Solve");
+        buttonStart = new JButton("Решение");
         buttonStart.addActionListener(this);
         panel.add(buttonStart);
 
-        labelInformation = new JLabel("RESOLUTION COMPLETED!");
+        labelInformation = new JLabel("Финиш!");
         labelInformation.setForeground(Color.red);
         labelInformation.setVisible(false);
         panel.add(labelInformation);
 
         add(panel, BorderLayout.SOUTH);
 
-        panelHanoi = new PictureHanoi(8, this);
+
+        panelHanoi = new PictureHanoi(this,8);
         add(panelHanoi, BorderLayout.CENTER);
 
 
@@ -64,7 +66,7 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-
+        repaint();
     }
 
     @Override

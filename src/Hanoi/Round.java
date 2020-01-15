@@ -1,44 +1,68 @@
 package Hanoi;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-public class Round extends JPanel implements MouseListener, MouseMotionListener {
+public class Round implements MouseListener, MouseMotionListener {
 
-    JLabel label;
-    int prevX;
-    int prevY;
 
-    Round(JLabel label){
-        this.label = label;
-        addMouseListener(this);
-        addMouseMotionListener(this);
-        add(label);
-        setBackground(Color.black);
+
+    private int x;
+    private int y;
+
+    private int destX;
+    private int destY;
+    private Image img;
+
+    Round(int x, int y, Image img){
+        this.x = x;
+        this.y = y;
+        this.img = img;
+    }
+
+    public int getX(){
+        return this.x;
+    }
+
+    public int getY(){
+        return this.y;
+    }
+
+    public void setX(int xx){
+        this.x = xx;
+    }
+
+    public void setY(int yy){
+        this.y = yy;
+    }
+
+    public Image getImg(){
+        return this.img;
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mouseClicked(MouseEvent mouseEvent) {
 
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        prevX = label.getX() - e.getX();
-        prevY = label.getY() - e.getY();
-
-        Component c = e.getComponent();
-        if (c instanceof JLabel)
+        if(e.getX() >= this.x && e.getX() <= this.x + img.getHeight(null)
+            && e.getY() >= this.y && e.getY() <= this.y + img.getHeight(null)
+        ) {
+            destX = this.getX() - e.getX();
+            destY = this.getY() - e.getY();
             updateLocation(e);
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        Component c = e.getComponent();
-        if(c instanceof JLabel)
+        if(e.getX() >= this.x && e.getX() <= this.x + img.getHeight(null)
+                && e.getY() >= this.y && e.getY() <= this.y + img.getHeight(null)
+        )
             updateLocation(e);
     }
 
@@ -54,7 +78,10 @@ public class Round extends JPanel implements MouseListener, MouseMotionListener 
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        updateLocation(e);
+        if(e.getX() >= this.x && e.getX() <= this.x + img.getHeight(null)
+                && e.getY() >= this.y && e.getY() <= this.y + img.getHeight(null)
+        )
+            updateLocation(e);
     }
 
     @Override
@@ -62,8 +89,8 @@ public class Round extends JPanel implements MouseListener, MouseMotionListener 
 
     }
 
-    private void updateLocation(MouseEvent e){
-        label.setLocation(prevX + e.getX(), prevY + e.getY());
-        repaint();
+    public void updateLocation(MouseEvent e){
+        setX(destX + e.getX());
+        setY(destY + e.getY());
     }
 }
