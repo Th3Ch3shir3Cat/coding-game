@@ -6,15 +6,18 @@ import java.awt.*;
 public class PictureHanoi extends JPanel{
 
     private MainHanoi hanoi; //Панель родитель
-    private Round[] rounds;
-    private int numberOfDisks;
 
+    private Round[] rounds; //Диски
+    private int numberOfDisks; //Кол-во дисков
+
+    private Towers[] towers;
 
     //Конструктор
     public PictureHanoi(MainHanoi hanoi, int numberOfDisks){
         this.hanoi = hanoi;
         this.numberOfDisks = numberOfDisks;
         rounds = new Round[numberOfDisks];
+        towers = new Towers[3];
         initializePanel();
     }
 
@@ -28,9 +31,11 @@ public class PictureHanoi extends JPanel{
         g2.drawString("Башня 1", 115, 320);
         g2.drawString("Башня 2", 315, 320);
         g2.drawString("Башня 3", 515, 320);
+        g2.drawString("Кол-во на башне 1: " + towers[0].getNumberOfDisksOnTower(), 510,90);
+        g2.drawString("Кол-во на башне 2: " + towers[1].getNumberOfDisksOnTower(), 510,120);
+        g2.drawString("Кол-во на башне 3: " + towers[2].getNumberOfDisksOnTower(), 510,150);
         Toolkit.getDefaultToolkit().sync();
         g.dispose();
-        repaint();
     }
 
 
@@ -41,12 +46,49 @@ public class PictureHanoi extends JPanel{
         for(int i = 0; i < numberOfDisks; i++){
             int w = numberOfDisks - i;
             ImageIcon ii = new ImageIcon(this.getClass().getResource("/res/Images/" + (i + 1) + ".png"));
-            rounds[i] = new Round(posicionXRound(i+1,1),posicionYRound(w),ii.getImage());
+            rounds[i] = new Round(posicionXRound(i+1,1),posicionYRound(w),ii.getImage(),this,i+1);
             addMouseListener(rounds[i]);
             addMouseMotionListener(rounds[i]);
         }
+
+        towers[0] = new Towers(0,210,8);
+        towers[1] = new Towers(210,420,0);
+        towers[2] = new Towers(420,630,0);
+
     }
 
+    public void goTowers(Round round){
+        for(Towers tower: towers){
+            if(tower.checkDisksInTower(round.getX(),round.getX() + round.getImg().getWidth(null))) {
+                //if(tower.getNumberOfDisksOnTower() != 0 && tower.getLastRound().getNumber() > round.getNumber()) {
+                tower.setNumberOfDisksOnTower(tower.getNumberOfDisksOnTower() + 1);
+                tower.addRound(round);
+                int position = (tower.getX2() - tower.getX1() - round.getImg().getWidth(null)) / 2;
+                round.setX(tower.getX1() + position);
+                round.setY(posicionYRound(tower.getNumberOfDisksOnTower()));
+                round.setStartX(round.getX());
+                round.setStartY(round.getY());
+                /*}
+                else if (tower.getNumberOfDisksOnTower() == 0){
+                    tower.setNumberOfDisksOnTower(tower.getNumberOfDisksOnTower() + 1);
+                    tower.addRound(round);
+                    int position = (tower.getX2() - tower.getX1() - round.getImg().getWidth(null)) / 2;
+                    round.setX(tower.getX1() + position);
+                    round.setY(posicionYRound(tower.getNumberOfDisksOnTower()));
+                    round.setStartX(round.getX());
+                    round.setStartY(round.getY());
+                }
+                else{
+                    round.setX(round.getStartX());
+                    round.setY(round.getStartY());
+                }
+            */}
+            else{
+                round.setX(round.getStartX());
+                round.setY(round.getStartY());
+            }
+        }
+    }
 
     public static int posicionXRound(int numberOfDisk, int torre) {
         int k = (torre - 1) * 200;
