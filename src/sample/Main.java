@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import javax.swing.*;
+
 public class Main extends Application {
 
     @Override
@@ -14,6 +16,7 @@ public class Main extends Application {
         primaryStage.setTitle("SuperCodingGameByGerbertFromPi62 v.1.0");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+        //setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
 
