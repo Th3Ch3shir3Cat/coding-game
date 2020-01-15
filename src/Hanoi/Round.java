@@ -17,18 +17,27 @@ public class Round implements MouseListener, MouseMotionListener {
     private int destY;
 
     private int number;
+    private int numberTower;
 
     private Image img;
     private PictureHanoi picture;
 
-    Round(int x, int y, Image img, PictureHanoi picture, int number){
+    Round(int x, int y, Image img, PictureHanoi picture, int number, int numberTower){
         this.x = x;
         this.y = y;
         this.img = img;
         this.startX = x;
         this.startY = y;
         this.number = number;
+        this.numberTower = numberTower;
         this.picture = picture;
+    }
+
+    public int getNumberTower(){
+        return this.numberTower;
+    }
+    public void setNumberTower(int num){
+        this.numberTower = num;
     }
 
     public int getX(){
@@ -92,7 +101,7 @@ public class Round implements MouseListener, MouseMotionListener {
                 && e.getY() >= this.y && e.getY() <= this.y + img.getHeight(null)
         ) {
             updateLocation(e);
-            picture.goTowers(this);
+            picture.goTowers(this, numberTower);
             picture.repaint();
 
         }

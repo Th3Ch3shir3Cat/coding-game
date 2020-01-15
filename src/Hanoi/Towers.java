@@ -33,7 +33,12 @@ public class Towers {
     }
 
     public Round getLastRound(){
-        return this.rounds.get(rounds.size());
+        return this.rounds.get(rounds.size() - 1);
+    }
+
+    public void removeRound(){
+        rounds.remove(rounds.size() - 1);
+        this.numberOfDisksOnTower -= 1;
     }
 
     public boolean checkDisksInTower(int x1, int x2){

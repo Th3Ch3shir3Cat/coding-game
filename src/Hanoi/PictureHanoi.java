@@ -46,7 +46,7 @@ public class PictureHanoi extends JPanel{
         for(int i = 0; i < numberOfDisks; i++){
             int w = numberOfDisks - i;
             ImageIcon ii = new ImageIcon(this.getClass().getResource("/res/Images/" + (i + 1) + ".png"));
-            rounds[i] = new Round(posicionXRound(i+1,1),posicionYRound(w),ii.getImage(),this,i+1);
+            rounds[i] = new Round(posicionXRound(i+1,1),posicionYRound(w),ii.getImage(),this,i+1,0);
             addMouseListener(rounds[i]);
             addMouseMotionListener(rounds[i]);
         }
@@ -55,38 +55,47 @@ public class PictureHanoi extends JPanel{
         towers[1] = new Towers(210,420,0);
         towers[2] = new Towers(420,630,0);
 
+        for(int i = 0; i < numberOfDisks; i++){
+            towers[0].addRound(rounds[i]);
+        }
+
     }
 
-    public void goTowers(Round round){
-        for(Towers tower: towers){
-            if(tower.checkDisksInTower(round.getX(),round.getX() + round.getImg().getWidth(null))) {
-                //if(tower.getNumberOfDisksOnTower() != 0 && tower.getLastRound().getNumber() > round.getNumber()) {
-                tower.setNumberOfDisksOnTower(tower.getNumberOfDisksOnTower() + 1);
-                tower.addRound(round);
-                int position = (tower.getX2() - tower.getX1() - round.getImg().getWidth(null)) / 2;
-                round.setX(tower.getX1() + position);
-                round.setY(posicionYRound(tower.getNumberOfDisksOnTower()));
+    public void goTowers(Round round, int num){
+        int indexTower = num;
+        for(int i = 0; i < 3; i++) {
+            if(towers[i].checkDisksInTower(round.getX(),round.getX() + round.getImg().getWidth(null)))
+                indexTower = i;
+        }
+        if(indexTower != num) {
+            if (towers[indexTower].getNumberOfDisksOnTower() != 0 && towers[indexTower].getLastRound().getNumber() > round.getNumber()) {
+                towers[indexTower].setNumberOfDisksOnTower(towers[indexTower].getNumberOfDisksOnTower() + 1);
+                towers[indexTower].addRound(round);
+                towers[num].removeRound();
+                int position = (towers[indexTower].getX2() - towers[indexTower].getX1() - round.getImg().getWidth(null)) / 2;
+                round.setX(towers[indexTower].getX1() + position);
+                round.setY(posicionYRound(towers[indexTower].getNumberOfDisksOnTower()));
                 round.setStartX(round.getX());
                 round.setStartY(round.getY());
-                /*}
-                else if (tower.getNumberOfDisksOnTower() == 0){
-                    tower.setNumberOfDisksOnTower(tower.getNumberOfDisksOnTower() + 1);
-                    tower.addRound(round);
-                    int position = (tower.getX2() - tower.getX1() - round.getImg().getWidth(null)) / 2;
-                    round.setX(tower.getX1() + position);
-                    round.setY(posicionYRound(tower.getNumberOfDisksOnTower()));
-                    round.setStartX(round.getX());
-                    round.setStartY(round.getY());
-                }
-                else{
-                    round.setX(round.getStartX());
-                    round.setY(round.getStartY());
-                }
-            */}
-            else{
+                round.setNumberTower(indexTower);
+            } else if (towers[indexTower].getNumberOfDisksOnTower() == 0) {
+                towers[indexTower].setNumberOfDisksOnTower(towers[indexTower].getNumberOfDisksOnTower() + 1);
+                towers[indexTower].addRound(round);
+                towers[num].removeRound();
+                int position = (towers[indexTower].getX2() - towers[indexTower].getX1() - round.getImg().getWidth(null)) / 2;
+                round.setX(towers[indexTower].getX1() + position);
+                round.setY(posicionYRound(towers[indexTower].getNumberOfDisksOnTower()));
+                round.setStartX(round.getX());
+                round.setStartY(round.getY());
+                round.setNumberTower(indexTower);
+            } else {
                 round.setX(round.getStartX());
                 round.setY(round.getStartY());
             }
+        }
+        else{
+            round.setX(round.getStartX());
+            round.setY(round.getStartY());
         }
     }
 
