@@ -116,4 +116,8 @@ public class Solve {
         return result;
     }
 
+    public List<Board> getSolution(){
+        return this.result;
+    }
+
 }

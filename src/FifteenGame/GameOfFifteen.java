@@ -1,22 +1,18 @@
 package FifteenGame;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import java.util.Random;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 // We are going to create a Game of 15 Puzzle with Java 8 and Swing
 // If you have some questions, feel free to read comments ;)
-public class GameOfFifteen extends JPanel { // our grid will be drawn in a dedicated Panel
+public class GameOfFifteen extends JPanel implements ActionListener { // our grid will be drawn in a dedicated Panel
 
     // Size of our Game of Fifteen instance
     private int size;
@@ -40,12 +36,24 @@ public class GameOfFifteen extends JPanel { // our grid will be drawn in a dedic
     private int gridSize;
     private boolean gameOver; // true if game over, false otherwise
 
-    public GameOfFifteen(int size, int dim, int mar) {
+
+    private JButton start;
+    private Timer timer;
+    private static final int VELOCIDAD = 1000;
+
+    private Solve solve; //Решение
+    private List<Board> result;
+    private int indexSolve; //Индекс для прохождения по решению
+
+    private MainFrameFifteen fifteen;
+
+    public GameOfFifteen(int size, int dim, int mar, MainFrameFifteen fifteen) {
+        this.fifteen = fifteen;
 
         this.size = size;
         dimension = dim;
         margin = mar;
-
+        this.indexSolve = 0;
         // init tiles
         nbTiles = size * size - 1; // -1 because we don't count blank tile
         tiles = new int[size * size];
@@ -58,6 +66,25 @@ public class GameOfFifteen extends JPanel { // our grid will be drawn in a dedic
         setBackground(Color.WHITE);
         setForeground(FOREGROUND_COLOR);
         setFont(new Font("SansSerif", Font.BOLD, 60));
+        start = new JButton("Решение");
+        start.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+
+                if (start.getText().equals("Пауза")) {
+                    timer.stop();
+                    start.setText("Продолжить");
+                }
+                else {
+                    timer.restart();
+                    start.setText("Пауза");
+                    getInfoAboutSituation();
+                    indexSolve = 0;
+                }
+            }
+        });
+
+        add(start);
 
         gameOver = true;
 
@@ -103,8 +130,8 @@ public class GameOfFifteen extends JPanel { // our grid will be drawn in a dedic
                             tiles[blankPos] = tiles[newBlankPos];
                             blankPos = newBlankPos;
                         } while(blankPos != clickPos);
-
                         tiles[blankPos] = 0;
+                        //getInfoAboutSituation();
                     }
 
                     // we check if game is solved
@@ -115,8 +142,11 @@ public class GameOfFifteen extends JPanel { // our grid will be drawn in a dedic
                 repaint();
             }
         });
+        timer = new Timer(VELOCIDAD, this);
 
         newGame();
+        //getInfoAboutSituation();
+
     }
 
     private void newGame() {
@@ -231,6 +261,21 @@ public class GameOfFifteen extends JPanel { // our grid will be drawn in a dedic
                 y + (asc + (tileSize - (asc + desc)) / 2));
     }
 
+    public void getInfoAboutSituation(){
+        int [] arr1 = this.getTiles();
+        int[][] situationOnBoard = new int[this.size][this.size];
+        for(int i = 0; i < this.size; i++){
+            for(int j = 0; j < this.size; j++){
+                situationOnBoard[i][j] = arr1[i*size + j];
+            }
+        }
+
+        Board initial = new Board(situationOnBoard);
+        this.solve = new Solve(initial);
+        this.result = solve.getSolution();
+
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -241,4 +286,32 @@ public class GameOfFifteen extends JPanel { // our grid will be drawn in a dedic
     }
 
 
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        if(start.getText().equals("Пауза")) {
+            System.out.println(indexSolve);
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    this.tiles[i * size + j] = result.get(indexSolve).getBlocks()[i][j];
+                }
+            }
+            indexSolve++;
+            if (indexSolve == result.size()) {
+                timer.stop();
+                start.setText("Решение");
+            }
+            repaint();
+        }
+    }
+
+
+    public void startAnimacion() {
+        timer.restart();
+    }
+
+
+    public void pauseAnimacion() {
+        timer.stop();
+    }
 }
