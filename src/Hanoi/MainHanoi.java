@@ -66,11 +66,37 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        repaint();
+        if (buttonStart.getText().equals("Пауза")) {
+            panelHanoi.pauseAnimacion();
+            buttonStart.setText("Продолжить");
+        } else {
+            if (buttonStart.getText().equals("Сначала")) {
+                remove(panelHanoi);
+                panelHanoi = new PictureHanoi( this, Integer.parseInt(spinnerNumberDisks.getValue().toString()));
+                add(panelHanoi, BorderLayout.CENTER);
+                buttonStart.setText("Старт");
+                labelInformation.setVisible(false);
+                this.setVisible(true);
+            } else {
+                panelHanoi.startAnimacion();
+                buttonStart.setText("Пауза");
+            }
+        }
     }
 
     @Override
     public void stateChanged(ChangeEvent changeEvent) {
+        panelHanoi.pauseAnimacion();
+        buttonStart.setText("Решение");
+        labelInformation.setVisible(false);
+        remove(panelHanoi);
+        panelHanoi = new PictureHanoi( this,Integer.parseInt(spinnerNumberDisks.getValue().toString()));
+        add(panelHanoi, BorderLayout.CENTER);
+        this.setVisible(true);
+    }
 
+    public void resultComplete() {
+        buttonStart.setText("Решение");
+        labelInformation.setVisible(true);
     }
 }

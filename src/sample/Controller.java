@@ -1,6 +1,5 @@
 package sample;
 
-import Hanoi.MainFrame;
 import Hanoi.MainHanoi;
 
 import java.awt.*;
