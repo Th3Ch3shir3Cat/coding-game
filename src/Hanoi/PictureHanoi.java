@@ -27,8 +27,6 @@ public class PictureHanoi extends JPanel implements ActionListener {
     private boolean moveComplete;
 
     private static final int VELOCIDAD = 1;
-    private static final int LIMITE_FICHAS = 8;
-    private static final int LIMITE_TORRES = 3;
 
     //Конструктор
     public PictureHanoi(MainHanoi hanoi, int numberOfDisks){
@@ -87,11 +85,6 @@ public class PictureHanoi extends JPanel implements ActionListener {
         step = 1;
         moveComplete = false;
         algoritmoHanoi(numberOfDisks,1,2,3);
-
-        for(int i = 1; i < numberSteps; i++){
-            System.out.println(moveDIsks[i].getNumberOfDisks() + " " + moveDIsks[i].getFromTowers() + " " + moveDIsks[i].getToTowers());
-        }
-        System.out.println();
 
     }
 

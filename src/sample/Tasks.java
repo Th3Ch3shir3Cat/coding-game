@@ -5,11 +5,19 @@ import FifteenGame.MainFrameFifteen;
 import Hanoi.MainHanoi;
 
 public class Tasks {
+    private Director director;
+
     public void goToHanoi(){
-        new MainHanoi();
+        director = new Director();
+        TowerBuilder builder = new TowerBuilder();
+        director.constractTowerForms(builder);
+        MainHanoi hanoi = builder.getResult();
     }
 
     public void goToFifteen(){
-        new MainFrameFifteen();
+        director = new Director();
+        FifteenBuilder builder = new FifteenBuilder();
+        director.constractFifteenForms(builder);
+        MainFrameFifteen fifteen = builder.getResult();
     }
 }

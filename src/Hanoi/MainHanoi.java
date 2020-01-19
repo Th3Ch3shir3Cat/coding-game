@@ -9,58 +9,41 @@ import java.awt.event.ActionListener;
 
 public class MainHanoi extends JFrame implements ActionListener, ChangeListener {
 
-    private JLabel labelNumberDisks;
     private JLabel labelInformation;
     private JSpinner spinnerNumberDisks;
     private JButton buttonStart;
     private PictureHanoi panelHanoi;
+    private JPanel panel;
+    private int width;
+    private int height;
 
 
-    public MainHanoi(){
+    public MainHanoi(JPanel panelInfo, JLabel labelInfo, JSpinner spinner, JButton button,int width, int height){
         super("Ханойские башни");
-        configuration();
+        this.panel = panelInfo;
+        this.labelInformation = labelInfo;
+        this.spinnerNumberDisks = spinner;
+        this.width = width;
+        this.height = height;
+        this.buttonStart = button;
+        this.setSize(this.width, this.height);
+        this.setVisible(true);
+        this.setLayout(new BorderLayout());
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
         inicializeComponents();
         this.setVisible(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
 
-    private void configuration() {
-        this.setSize(680, 400);
-        this.setVisible(true);
-        this.setLayout(new BorderLayout());
-        this.setLocationRelativeTo(null);
-        this.setResizable(false);
-    }
-
     private void inicializeComponents() {
 
-        JPanel panel = new JPanel();
-
-        labelNumberDisks = new JLabel("Кол-во дисков");
-        panel.add(labelNumberDisks);
-
-
-        spinnerNumberDisks = new JSpinner(new SpinnerNumberModel(8, 1, 8, 1));
-        spinnerNumberDisks.addChangeListener(this);
-        panel.add(spinnerNumberDisks);
-
-
-        buttonStart = new JButton("Решение");
         buttonStart.addActionListener(this);
-        panel.add(buttonStart);
-
-        labelInformation = new JLabel("Финиш!");
-        labelInformation.setForeground(Color.red);
-        labelInformation.setVisible(false);
-        panel.add(labelInformation);
-
+        spinnerNumberDisks.addChangeListener(this);
         add(panel, BorderLayout.SOUTH);
-
-
         panelHanoi = new PictureHanoi(this,8);
         add(panelHanoi, BorderLayout.CENTER);
-
 
     }
 
