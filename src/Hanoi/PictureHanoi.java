@@ -1,5 +1,9 @@
 package Hanoi;
 
+import Hanoi.State.AgainState;
+import Hanoi.State.StartState;
+import Hanoi.State.State;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,11 +14,14 @@ public class PictureHanoi extends JPanel implements ActionListener {
     private MainHanoi hanoi; //Панель родитель
 
     private Round[] rounds; //Диски
+
     private int numberOfDisks; //Кол-во дисков
 
     private Towers[] towers;
 
     private Timer timer;
+
+    private State state;
 
     private int step;
     private int numberSteps;
@@ -34,6 +41,9 @@ public class PictureHanoi extends JPanel implements ActionListener {
         this.numberOfDisks = numberOfDisks;
         rounds = new Round[numberOfDisks];
         towers = new Towers[3];
+
+        this.state = new StartState(this);
+
         moveDIsks = new MoveDisks[(int) Math.pow(2, this.numberOfDisks)];
         initializePanel();
         timer = new Timer(VELOCIDAD, this);
@@ -247,9 +257,15 @@ public class PictureHanoi extends JPanel implements ActionListener {
         timer.restart();
     }
 
-
     public void pauseAnimacion() {
         timer.stop();
     }
 
+    public void changeState(State state){
+        this.state = state;
+    }
+
+    public State getState(){
+        return this.state;
+    }
 }

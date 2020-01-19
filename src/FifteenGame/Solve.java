@@ -6,7 +6,7 @@ public class Solve {
     private Board initial;    //
     private List<Board> result = new ArrayList<Board>();   // этот лист - цепочка ходов, приводящих к решению задачи
 
-    private class ITEM{    // Чтобы узнать длину пути, нам нужно помнить предидущие позиции (и не только поэтому)
+    private class ITEM{    // Чтобы узнать длину пути, нам нужно помнить предидущие позиции
         private ITEM prevBoard;  // ссылка на предыдущий
         private Board board;   // сама позиция
 
@@ -14,12 +14,9 @@ public class Solve {
             this.prevBoard = prevBoard;
             this.board = board;
         }
-
         public Board getBoard() {
             return board;
         }
-
-
     }
 
     public Solve(Board initial) {

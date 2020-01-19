@@ -1,4 +1,4 @@
-package sample;
+package sample.Builder;
 
 public class Director {
 

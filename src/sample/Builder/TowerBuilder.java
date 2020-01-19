@@ -1,11 +1,12 @@
-package sample;
+package sample.Builder;
 
 import Hanoi.MainHanoi;
+import sample.Builder.FormBuilder;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class TowerBuilder implements FormBuilder{
+public class TowerBuilder implements FormBuilder {
 
     private JLabel labelNumberDisks;
     private JLabel labelInformation;

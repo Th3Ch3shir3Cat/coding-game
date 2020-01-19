@@ -1,5 +1,7 @@
 package Hanoi;
 
+import Hanoi.State.*;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -51,18 +53,21 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
     public void actionPerformed(ActionEvent actionEvent) {
         if (buttonStart.getText().equals("Пауза")) {
             panelHanoi.pauseAnimacion();
-            buttonStart.setText("Продолжить");
+            buttonStart.setText(panelHanoi.getState().continuest());
+            panelHanoi.changeState(new ContinueState(panelHanoi));
         } else {
             if (buttonStart.getText().equals("Сначала")) {
                 remove(panelHanoi);
+                buttonStart.setText(panelHanoi.getState().start());
                 panelHanoi = new PictureHanoi( this, Integer.parseInt(spinnerNumberDisks.getValue().toString()));
                 add(panelHanoi, BorderLayout.CENTER);
-                buttonStart.setText("Старт");
                 labelInformation.setVisible(false);
                 this.setVisible(true);
+                panelHanoi.changeState(new StartState(panelHanoi));
             } else {
                 panelHanoi.startAnimacion();
-                buttonStart.setText("Пауза");
+                buttonStart.setText(panelHanoi.getState().pause());
+                panelHanoi.changeState(new PauseState(panelHanoi));
             }
         }
     }
@@ -79,7 +84,8 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
     }
 
     public void resultComplete() {
-        buttonStart.setText("Решение");
+        buttonStart.setText("Сначала");
+        panelHanoi.changeState(new AgainState(panelHanoi));
         labelInformation.setVisible(true);
     }
 }

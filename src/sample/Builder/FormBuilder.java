@@ -1,4 +1,4 @@
-package sample;
+package sample.Builder;
 
 import javax.swing.*;
 

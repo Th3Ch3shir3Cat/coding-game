@@ -1,10 +1,13 @@
 package sample;
 
-import FifteenGame.GameOfFifteen;
 import FifteenGame.MainFrameFifteen;
 import Hanoi.MainHanoi;
+import sample.Builder.Director;
+import sample.Builder.FifteenBuilder;
+import sample.Builder.TowerBuilder;
 
 public class Tasks {
+
     private Director director;
 
     public void goToHanoi(){
@@ -20,4 +23,5 @@ public class Tasks {
         director.constractFifteenForms(builder);
         MainFrameFifteen fifteen = builder.getResult();
     }
+
 }

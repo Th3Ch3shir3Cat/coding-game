@@ -9,6 +9,6 @@
             fx:controller="sample.Controller">
    <children>
       <Button fx:id="Play" layoutX="190.0" layoutY="86.0" mnemonicParsing="false" onAction="#goToTasksForm" prefHeight="49.0" prefWidth="124.0" text="Играть" />
-      <Button layoutX="190.0" layoutY="170.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="124.0" text="Инструкции" />
+      <Button fx:id ="Info" layoutX="190.0" layoutY="170.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="124.0" text="Инструкции" />
    </children>
 </AnchorPane>

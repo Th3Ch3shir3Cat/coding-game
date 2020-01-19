@@ -1,6 +1,7 @@
-package sample;
+package sample.Builder;
 
 import FifteenGame.MainFrameFifteen;
+import sample.Builder.FormBuilder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -47,7 +48,7 @@ public class FifteenBuilder implements FormBuilder {
 
     }
 
-    MainFrameFifteen getResult(){
+    public MainFrameFifteen getResult(){
         return new MainFrameFifteen(this.panel,this.labelInformation,this.spinnerNumberSquad,this.buttonStart,this.width,this.height);
     }
 }
