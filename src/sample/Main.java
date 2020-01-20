@@ -19,13 +19,7 @@ public class Main extends Application {
     private static Dialog dialog;
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        /*Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("SuperCodingGameByGerbertFromPi62 v.1.0");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
-        */
-        //setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    public void start(Stage primaryStage){
         JFrame frame = new JFrame("Главная форма");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         JButton buttonTasks = new JButton("Игры");

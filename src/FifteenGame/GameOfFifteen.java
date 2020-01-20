@@ -128,12 +128,10 @@ public class GameOfFifteen extends JPanel implements ActionListener {
             tiles[i] = (i + 1) % tiles.length;
         }
 
-        // we set blank cell at the last
         blankPos = tiles.length - 1;
     }
 
     private void shuffle() {
-        // don't include the blank tile in the shuffle, leave in the solved position
         int n = nbTiles;
 
         while (n > 1) {
@@ -144,10 +142,6 @@ public class GameOfFifteen extends JPanel implements ActionListener {
         }
     }
 
-    // Only half permutations of the puzzle are solvable.
-    // Whenever a tile is preceded by a tile with higher value it counts
-    // as an inversion. In our case, with the blank tile in the solved position,
-    // the number of inversions must be even for the puzzle to be solvable
     private boolean isSolvable() {
         int countInversions = 0;
 
@@ -166,7 +160,7 @@ public class GameOfFifteen extends JPanel implements ActionListener {
     }
 
     private boolean isSolved() {
-        if (tiles[tiles.length - 1] != 0) // if blank tile is not in the solved position ==> not solved
+        if (tiles[tiles.length - 1] != 0)
             return false;
 
         for (int i = nbTiles - 1; i >= 0; i--) {
@@ -179,14 +173,11 @@ public class GameOfFifteen extends JPanel implements ActionListener {
 
     private void drawGrid(Graphics2D g) {
         for (int i = 0; i < tiles.length; i++) {
-            // we convert 1D coords to 2D coords given the size of the 2D Array
             int r = i / size;
             int c = i % size;
-            // we convert in coords on the UI
             int x = margin + c * tileSize;
             int y = margin + r * tileSize;
 
-            // check special case for blank tile
             if(tiles[i] == 0) {
                 if (gameOver) {
                     g.setColor(FOREGROUND_COLOR);
@@ -196,7 +187,6 @@ public class GameOfFifteen extends JPanel implements ActionListener {
                 continue;
             }
 
-            // for other tiles
             g.setColor(getForeground());
             g.fillRoundRect(x, y, tileSize, tileSize, 25, 25);
             g.setColor(Color.BLACK);
