@@ -7,9 +7,6 @@ import java.io.IOException;
 
 public class Controller {
 
-    @FXML private javafx.scene.control.Button Play;
-
-
     public void goToTasksForm(javafx.event.ActionEvent actionEvent) throws IOException {
 /*
         Stage stage = (Stage) Play.getScene().getWindow();
@@ -23,9 +20,9 @@ public class Controller {
         stage.setScene(new Scene(root1));
         stage.show();
 */
+
         Tasks tasks = new Tasks();
         tasks.init();
-
     }
 
 

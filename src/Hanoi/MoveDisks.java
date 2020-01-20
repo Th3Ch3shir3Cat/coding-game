@@ -26,15 +26,7 @@ public class MoveDisks {
         return toTowers;
     }
 
-    public void setNumberOfDisks(int numberOfDisks) {
-        this.numberOfDisks = numberOfDisks;
-    }
+    public void execute(){
 
-    public void setFromTowers(int fromTowers) {
-        this.fromTowers = fromTowers;
-    }
-
-    public void setToTowers(int toTowers) {
-        this.toTowers = toTowers;
     }
 }

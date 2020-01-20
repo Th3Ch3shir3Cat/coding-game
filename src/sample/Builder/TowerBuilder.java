@@ -13,6 +13,7 @@ public class TowerBuilder implements FormBuilder {
     private JSpinner spinnerNumberDisks;
     private JPanel panel;
     private JButton buttonStart;
+    private JButton buttonBack;
     private int width;
     private int height;
 
@@ -32,7 +33,9 @@ public class TowerBuilder implements FormBuilder {
         panel.add(spinnerNumberDisks);
 
         buttonStart = new JButton("Решение");
+        buttonBack = new JButton("Отменить");
         panel.add(buttonStart);
+        panel.add(buttonBack);
 
 
         labelInformation = new JLabel("Финиш!");
@@ -48,6 +51,6 @@ public class TowerBuilder implements FormBuilder {
     }
 
     public MainHanoi getResult(){
-        return new MainHanoi(this.panel,this.labelInformation,this.spinnerNumberDisks,this.buttonStart,this.width,this.height);
+        return new MainHanoi(this.panel,this.labelInformation,this.spinnerNumberDisks,this.buttonStart,this.buttonBack,this.width,this.height);
     }
 }

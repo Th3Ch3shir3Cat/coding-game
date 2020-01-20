@@ -1,13 +1,13 @@
 package Hanoi;
 
-import Hanoi.State.AgainState;
+import Hanoi.Snapshot.History;
+import Hanoi.Snapshot.Memento;
 import Hanoi.State.StartState;
 import Hanoi.State.State;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class PictureHanoi extends JPanel implements ActionListener {
 
@@ -22,12 +22,16 @@ public class PictureHanoi extends JPanel implements ActionListener {
     private Timer timer;
 
     private State state;
+    private History history;
 
     private int step;
+
     private int numberSteps;
 
     private int topDisks;
     private int x,y;
+
+    private MoveDisks[] moves;
 
     private MoveDisks[] moveDIsks;
     private int numberOfSteps;
@@ -41,6 +45,8 @@ public class PictureHanoi extends JPanel implements ActionListener {
         this.numberOfDisks = numberOfDisks;
         rounds = new Round[numberOfDisks];
         towers = new Towers[3];
+        moves = new MoveDisks[10];
+        history = new History();
 
         this.state = new StartState(this);
 
@@ -106,6 +112,7 @@ public class PictureHanoi extends JPanel implements ActionListener {
         }
         if(indexTower != num) {
             if (towers[indexTower].getNumberOfDisksOnTower() != 0 && towers[indexTower].getLastRound().getNumber() > round.getNumber()) {
+                execute(new MoveDisks(round.getNumber(),num,indexTower));
                 towers[indexTower].setNumberOfDisksOnTower(towers[indexTower].getNumberOfDisksOnTower() + 1);
                 towers[indexTower].addRound(round);
                 towers[num].removeRound();
@@ -115,10 +122,12 @@ public class PictureHanoi extends JPanel implements ActionListener {
                 round.setStartX(round.getX());
                 round.setStartY(round.getY());
                 round.setNumberTower(indexTower);
+
             } else if (towers[indexTower].getNumberOfDisksOnTower() == 0) {
                 towers[indexTower].setNumberOfDisksOnTower(towers[indexTower].getNumberOfDisksOnTower() + 1);
                 towers[indexTower].addRound(round);
                 towers[num].removeRound();
+                execute(new MoveDisks(round.getNumber(),num,indexTower));
                 int position = (towers[indexTower].getX2() - towers[indexTower].getX1() - round.getImg().getWidth(null)) / 2;
                 round.setX(towers[indexTower].getX1() + position);
                 round.setY(posicionYRound(towers[indexTower].getNumberOfDisksOnTower()));
@@ -146,7 +155,6 @@ public class PictureHanoi extends JPanel implements ActionListener {
         moveDIsks[numberSteps] = new MoveDisks(n, from, to);
         algoritmoHanoi(n - 1, inter, from, to);
     }
-
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
@@ -268,4 +276,41 @@ public class PictureHanoi extends JPanel implements ActionListener {
     public State getState(){
         return this.state;
     }
+
+    public MoveDisks[] getBackup(){
+        return this.moves;
+    }
+
+    public void undo(){
+        if(history.undo()){
+            System.out.println(history.getLastMove().getNumberOfDisks());
+
+            towers[history.getLastMove().getFromTowers()].setNumberOfDisksOnTower(towers[history.getLastMove().getFromTowers()].getNumberOfDisksOnTower() + 1);
+            towers[history.getLastMove().getFromTowers()].addRound(rounds[history.getLastMove().getNumberOfDisks() - 1]);
+            towers[history.getLastMove().getToTowers()].removeRound();
+
+            int position = (towers[history.getLastMove().getFromTowers()].getX2() - towers[history.getLastMove().getFromTowers()].getX1() - rounds[history.getLastMove().getNumberOfDisks() - 1].getImg().getWidth(null)) / 2;
+            rounds[history.getLastMove().getNumberOfDisks() - 1].setX(towers[history.getLastMove().getFromTowers()].getX1() + position);
+            rounds[history.getLastMove().getNumberOfDisks() - 1].setY(posicionYRound(towers[history.getLastMove().getFromTowers()].getNumberOfDisksOnTower()));
+            rounds[history.getLastMove().getNumberOfDisks() - 1].setStartX(rounds[history.getLastMove().getNumberOfDisks() - 1].getX());
+            rounds[history.getLastMove().getNumberOfDisks() - 1].setStartY(rounds[history.getLastMove().getNumberOfDisks() - 1].getY());
+            rounds[history.getLastMove().getNumberOfDisks() - 1].setNumberTower(history.getLastMove().getFromTowers());
+            repaint();
+        }
+    }
+
+    public void redo(){
+        if(history.redo()){
+            repaint();
+        }
+    }
+
+    public void restore(MoveDisks[] moves){
+        this.moves = moves;
+    }
+
+    public void execute(MoveDisks move){
+        history.push(move, new Memento(this));
+    }
+
 }

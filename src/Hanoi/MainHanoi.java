@@ -14,13 +14,14 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
     private JLabel labelInformation;
     private JSpinner spinnerNumberDisks;
     private JButton buttonStart;
+    private JButton buttonBack;
     private PictureHanoi panelHanoi;
     private JPanel panel;
     private int width;
     private int height;
 
 
-    public MainHanoi(JPanel panelInfo, JLabel labelInfo, JSpinner spinner, JButton button,int width, int height){
+    public MainHanoi(JPanel panelInfo, JLabel labelInfo, JSpinner spinner, JButton button,JButton buttonBack,int width, int height){
         super("Ханойские башни");
         this.panel = panelInfo;
         this.labelInformation = labelInfo;
@@ -28,6 +29,7 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
         this.width = width;
         this.height = height;
         this.buttonStart = button;
+        this.buttonBack = buttonBack;
         this.setSize(this.width, this.height);
         this.setVisible(true);
         this.setLayout(new BorderLayout());
@@ -42,6 +44,12 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
     private void inicializeComponents() {
 
         buttonStart.addActionListener(this);
+        buttonBack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                panelHanoi.undo();
+            }
+        });
         spinnerNumberDisks.addChangeListener(this);
         add(panel, BorderLayout.SOUTH);
         panelHanoi = new PictureHanoi(this,8);
