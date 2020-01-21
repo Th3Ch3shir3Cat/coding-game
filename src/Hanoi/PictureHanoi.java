@@ -144,6 +144,11 @@ public class PictureHanoi extends JPanel implements ActionListener {
             round.setX(round.getStartX());
             round.setY(round.getStartY());
         }
+        if(towers[2].getNumberOfDisksOnTower() == this.numberOfDisks){
+            hanoi.resultComplete();
+            JOptionPane.showMessageDialog(this,
+                    "Умница, а теперь попробуй написать код!!!");
+        }
     }
 
     public boolean addMove(int num1, int num2){
@@ -239,6 +244,11 @@ public class PictureHanoi extends JPanel implements ActionListener {
             numberOfSteps++;
             if(numberOfSteps == numerusInput && numerusInput != 0){
                 timer.stop();
+                if(hanoi.getNumtry() == 1 && towers[2].getNumberOfDisksOnTower() == this.numberOfDisks){
+                    JOptionPane.showMessageDialog(this,
+                            "Ого, да гений, раз выполнил с 1го раза");
+                }
+                hanoi.resultComplete();
             }
             else
             if (numberOfSteps >= (int) Math.pow(2, numberOfDisks)) {
