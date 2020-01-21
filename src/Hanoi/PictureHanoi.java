@@ -116,6 +116,7 @@ public class PictureHanoi extends JPanel implements ActionListener {
                 execute(new MoveDisks(round.getNumber(),num,indexTower));
                 towers[indexTower].addRound(round);
                 towers[num].removeRound();
+                towers[indexTower].setNumberOfDisksOnTower(towers[indexTower].getNumberOfDisksOnTower() + 1);
                 int position = (towers[indexTower].getX2() - towers[indexTower].getX1() - round.getImg().getWidth(null)) / 2;
                 round.setX(towers[indexTower].getX1() + position);
                 round.setY(posicionYRound(towers[indexTower].getNumberOfDisksOnTower()));
@@ -124,9 +125,10 @@ public class PictureHanoi extends JPanel implements ActionListener {
                 round.setNumberTower(indexTower);
 
             } else if (towers[indexTower].getNumberOfDisksOnTower() == 0) {
+                execute(new MoveDisks(round.getNumber(),num,indexTower));
                 towers[indexTower].addRound(round);
                 towers[num].removeRound();
-                execute(new MoveDisks(round.getNumber(),num,indexTower));
+                towers[indexTower].setNumberOfDisksOnTower(towers[indexTower].getNumberOfDisksOnTower() + 1);
                 int position = (towers[indexTower].getX2() - towers[indexTower].getX1() - round.getImg().getWidth(null)) / 2;
                 round.setX(towers[indexTower].getX1() + position);
                 round.setY(posicionYRound(towers[indexTower].getNumberOfDisksOnTower()));
@@ -145,7 +147,6 @@ public class PictureHanoi extends JPanel implements ActionListener {
     }
 
     public boolean addMove(int num1, int num2){
-        numberOfSteps = 0;
         if(!checkNumberOfDisks(num1))
             return false;
         if (!checkMoveBetweenTowers(towers[num1 - 1].getLastRound(), num2))
@@ -174,11 +175,6 @@ public class PictureHanoi extends JPanel implements ActionListener {
         this.numerusInput = 0;
     }
 
-    public void writeMoveDIsks(){
-        for(int i = 0; i < 3; i++) {
-            System.out.println(towers[i].getNumberOfDisksOnTower());
-        }
-    }
 
     public void algoritmoHanoi(int n, int from, int inter, int to) {
         if (n == 0) {
@@ -234,7 +230,12 @@ public class PictureHanoi extends JPanel implements ActionListener {
         if (moveComplete) {
             step = 1;
             towers[moveDIsks[numberOfSteps].getToTowers() - 1].setNumberOfDisksOnTower(towers[moveDIsks[numberOfSteps].getToTowers() - 1].getNumberOfDisksOnTower() + 1);
-            towers[moveDIsks[numberOfSteps].getFromTowers() - 1].setNumberOfDisksOnTower(towers[moveDIsks[numberOfSteps].getFromTowers() - 1].getNumberOfDisksOnTower() - 1);
+            towers[moveDIsks[numberOfSteps].getToTowers() - 1].addRound(rounds[moveDIsks[numberOfSteps].getNumberOfDisks() - 1]);
+            towers[moveDIsks[numberOfSteps].getFromTowers() - 1].removeRound();
+            rounds[moveDIsks[numberOfSteps].getNumberOfDisks()-1].setX(x);
+            rounds[moveDIsks[numberOfSteps].getNumberOfDisks()-1].setY(y);
+            rounds[moveDIsks[numberOfSteps].getNumberOfDisks()-1].setStartX(x);
+            rounds[moveDIsks[numberOfSteps].getNumberOfDisks()-1].setStartY(y);
             numberOfSteps++;
             if(numberOfSteps == numerusInput && numerusInput != 0){
                 timer.stop();

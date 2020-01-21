@@ -1,6 +1,8 @@
 package Hanoi;
 
 import Hanoi.State.*;
+import sample.Delegate.AnalizeForFifteen;
+import sample.Delegate.AnalizeForTowers;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -23,12 +25,13 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
     private JTextArea inputText;
     private int width;
     private int height;
+    private AnalizeForTowers AnalizeTowers;
 
 
-    public MainHanoi(JPanel panelInfo, JLabel labelInfo, JSpinner spinner, JButton button,JButton buttonBack,JButton buttonInput,int width, int height){
+    public MainHanoi(JPanel panelInfo, JLabel labelInfo, JSpinner spinner, JButton button,JButton buttonBack,int width, int height){
         super("Ханойские башни");
         this.panel = panelInfo;
-        this.buttonInput = buttonInput;
+        this.buttonInput = new JButton("Выполнить");
         this.inputText = new JTextArea("",8,20);
         this.panelLog = new JPanel();
         this.labelInformation = labelInfo;
@@ -65,7 +68,10 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
         add(panel, BorderLayout.SOUTH);
         panelHanoi = new PictureHanoi(this,8);
         add(panelHanoi, BorderLayout.CENTER);
-        add(this.inputText, BorderLayout.EAST);
+        panelLog.setLayout(new BorderLayout());
+        panelLog.add(this.inputText, BorderLayout.CENTER);
+        panelLog.add(buttonInput, BorderLayout.SOUTH);
+        add(this.panelLog, BorderLayout.EAST);
 
     }
 
@@ -78,7 +84,14 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
             this.setVisible(true);
             String string = this.inputText.getText();
             String[] str = string.split("\n");
+
             if(str[0].length() != 0) {
+                AnalizeTowers = new AnalizeForTowers(str);
+                if(AnalizeTowers.textAnalize() == 0){
+                    System.out.println("четкий код");
+                }
+                else
+                    System.out.println(AnalizeTowers.textAnalize());
                 panelHanoi.removeAllInfoAboutText();
                 for (int i = 0; i < str.length; i++) {
                     char[] chars = str[i].toCharArray();
@@ -87,7 +100,6 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
                 }
                 panelHanoi.initializeTowers();
                 panelHanoi.setNumberSteps(0);
-                panelHanoi.writeMoveDIsks();
                 panelHanoi.startAnimacion();
             }
         }

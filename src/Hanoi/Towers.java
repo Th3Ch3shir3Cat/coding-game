@@ -37,7 +37,7 @@ public class Towers {
     }
 
     public void removeRound(){
-        rounds.remove(rounds.size() - 1);
+        this.rounds.remove(this.rounds.size() - 1);
         this.numberOfDisksOnTower--;
     }
 
