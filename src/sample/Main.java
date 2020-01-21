@@ -1,9 +1,6 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.Fabric.Dialog;
 import sample.Fabric.InfoDialog;
@@ -22,9 +19,12 @@ public class Main extends Application {
     public void start(Stage primaryStage){
         JFrame frame = new JFrame("Главная форма");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+        frame.setContentPane(new JLabel(new ImageIcon(this.getClass().getResource("/res/pictureMain.jpg"))));
+        frame.setLayout(new FlowLayout());
+
         JButton buttonTasks = new JButton("Игры");
         JButton buttonInfo = new JButton("Информация");
-        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonTasks.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -39,9 +39,8 @@ public class Main extends Application {
                 onClick();
             }
         });
-        buttons.add(buttonTasks);
-        buttons.add(buttonInfo);
-        frame.add(buttons);
+        frame.add(buttonTasks);
+        frame.add(buttonInfo);
         frame.setSize(504,315);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

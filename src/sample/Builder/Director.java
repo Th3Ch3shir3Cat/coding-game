@@ -9,7 +9,7 @@ public class Director {
     }
 
     public void constractTowerForms(FormBuilder builder){
-        builder.configuration(680,400);
+        builder.configuration(880,400);
         builder.initializeComponents();
         builder.resultCompleted();
     }

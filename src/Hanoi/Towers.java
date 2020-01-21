@@ -38,7 +38,7 @@ public class Towers {
 
     public void removeRound(){
         rounds.remove(rounds.size() - 1);
-        this.numberOfDisksOnTower -= 1;
+        this.numberOfDisksOnTower--;
     }
 
     public boolean checkDisksInTower(int x1, int x2){

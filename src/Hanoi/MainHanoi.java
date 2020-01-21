@@ -8,6 +8,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.BreakIterator;
 
 public class MainHanoi extends JFrame implements ActionListener, ChangeListener {
 
@@ -15,15 +16,21 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
     private JSpinner spinnerNumberDisks;
     private JButton buttonStart;
     private JButton buttonBack;
+    private JButton buttonInput;
     private PictureHanoi panelHanoi;
     private JPanel panel;
+    private JPanel panelLog;
+    private JTextArea inputText;
     private int width;
     private int height;
 
 
-    public MainHanoi(JPanel panelInfo, JLabel labelInfo, JSpinner spinner, JButton button,JButton buttonBack,int width, int height){
+    public MainHanoi(JPanel panelInfo, JLabel labelInfo, JSpinner spinner, JButton button,JButton buttonBack,JButton buttonInput,int width, int height){
         super("Ханойские башни");
         this.panel = panelInfo;
+        this.buttonInput = buttonInput;
+        this.inputText = new JTextArea("",8,20);
+        this.panelLog = new JPanel();
         this.labelInformation = labelInfo;
         this.spinnerNumberDisks = spinner;
         this.width = width;
@@ -50,32 +57,71 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
                 panelHanoi.undo();
             }
         });
+        buttonInput.setActionCommand("ReadFromTextInput");
+        buttonInput.addActionListener(this);
         spinnerNumberDisks.addChangeListener(this);
+        this.inputText.setFont(new Font("Dialog", Font.PLAIN, 12));
+        this.inputText.setTabSize(10);
         add(panel, BorderLayout.SOUTH);
         panelHanoi = new PictureHanoi(this,8);
         add(panelHanoi, BorderLayout.CENTER);
+        add(this.inputText, BorderLayout.EAST);
 
     }
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        if (buttonStart.getText().equals("Пауза")) {
-            panelHanoi.pauseAnimacion();
-            buttonStart.setText(panelHanoi.getState().continuest());
-            panelHanoi.changeState(new ContinueState(panelHanoi));
-        } else {
-            if (buttonStart.getText().equals("Сначала")) {
-                remove(panelHanoi);
-                buttonStart.setText(panelHanoi.getState().start());
-                panelHanoi = new PictureHanoi( this, Integer.parseInt(spinnerNumberDisks.getValue().toString()));
-                add(panelHanoi, BorderLayout.CENTER);
-                labelInformation.setVisible(false);
-                this.setVisible(true);
-                panelHanoi.changeState(new StartState(panelHanoi));
-            } else {
+        if("ReadFromTextInput".equals(actionEvent.getActionCommand())){
+            remove(panelHanoi);
+            panelHanoi = new PictureHanoi(this, Integer.parseInt(spinnerNumberDisks.getValue().toString()));
+            add(panelHanoi, BorderLayout.CENTER);
+            this.setVisible(true);
+            String string = this.inputText.getText();
+            String[] str = string.split("\n");
+            if(str[0].length() != 0) {
+                panelHanoi.removeAllInfoAboutText();
+                for (int i = 0; i < str.length; i++) {
+                    char[] chars = str[i].toCharArray();
+                    if(!panelHanoi.addMove(Character.getNumericValue(chars[5]), Character.getNumericValue(chars[7])))
+                        break;
+                }
+                panelHanoi.initializeTowers();
+                panelHanoi.setNumberSteps(0);
+                panelHanoi.writeMoveDIsks();
                 panelHanoi.startAnimacion();
-                buttonStart.setText(panelHanoi.getState().pause());
-                panelHanoi.changeState(new PauseState(panelHanoi));
+            }
+        }
+        else {
+            if (buttonStart.getText().equals("Пауза")) {
+                panelHanoi.pauseAnimacion();
+                buttonStart.setText(panelHanoi.getState().continuest());
+                panelHanoi.changeState(new ContinueState(panelHanoi));
+            } else {
+                if (buttonStart.getText().equals("Сначала")) {
+                    remove(panelHanoi);
+                    buttonStart.setText(panelHanoi.getState().start());
+                    panelHanoi = new PictureHanoi(this, Integer.parseInt(spinnerNumberDisks.getValue().toString()));
+                    add(panelHanoi, BorderLayout.CENTER);
+                    labelInformation.setVisible(false);
+                    this.setVisible(true);
+                    panelHanoi.changeState(new StartState(panelHanoi));
+                } else {
+                    if (buttonStart.getText().equals("Решение")) {
+                        remove(panelHanoi);
+                        buttonStart.setText("Пауза");
+                        panelHanoi = new PictureHanoi(this, Integer.parseInt(spinnerNumberDisks.getValue().toString()));
+                        panelHanoi.algoritmoHanoi(Integer.parseInt(spinnerNumberDisks.getValue().toString()),1,2,3);
+                        panelHanoi.startAnimacion();
+                        add(panelHanoi, BorderLayout.CENTER);
+                        labelInformation.setVisible(false);
+                        this.setVisible(true);
+                        panelHanoi.changeState(new PauseState(panelHanoi));
+                    } else {
+                        panelHanoi.startAnimacion();
+                        buttonStart.setText(panelHanoi.getState().pause());
+                        panelHanoi.changeState(new PauseState(panelHanoi));
+                    }
+                }
             }
         }
     }
