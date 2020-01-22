@@ -1,7 +1,6 @@
 package Hanoi;
 
 import Hanoi.State.*;
-import sample.Delegate.AnalizeForFifteen;
 import sample.Delegate.AnalizeForTowers;
 
 import javax.swing.*;
@@ -13,7 +12,6 @@ import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.BreakIterator;
 
 public class MainHanoi extends JFrame implements ActionListener, ChangeListener {
 
@@ -37,7 +35,6 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
         super("Ханойские башни");
         this.panel = panelInfo;
         this.buttonInput = new JButton("Выполнить");
-        //this.inputText = new JTextArea("",8,20);
         this.textPane = new JTextPane();
         this.panelLog = new JPanel();
         this.labelInformation = labelInfo;
@@ -69,13 +66,10 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
         buttonInput.setActionCommand("ReadFromTextInput");
         buttonInput.addActionListener(this);
         spinnerNumberDisks.addChangeListener(this);
-        //this.inputText.setFont(new Font("Dialog", Font.PLAIN, 12));
-        //this.inputText.setTabSize(10);
         add(panel, BorderLayout.SOUTH);
         panelHanoi = new PictureHanoi(this,8);
         add(panelHanoi, BorderLayout.CENTER);
         panelLog.setLayout(new BorderLayout());
-        //panelLog.add(this.inputText, BorderLayout.CENTER);
         this.textPane.setFont(new Font("Dialog", Font.BOLD, 14));
         panelLog.add(textPane, BorderLayout.CENTER);
         panelLog.add(buttonInput, BorderLayout.SOUTH);
@@ -92,12 +86,7 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
             this.setVisible(true);
             String string = this.textPane.getText();
             String[] str = string.split("\n");
-            int sum = 0;
-            for(int i = 0; i < str.length; i++){
-                for(int j = 0; j < str[i].length(); j++)
-                    sum++;
-            }
-            changeStringStyle(this.textPane,0, sum, Color.black);
+            changeStringStyle(this.textPane,0, returnPositionInText(str,str.length), Color.black);
             checkInput(str);
         }
         else {
@@ -160,30 +149,51 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
     public void checkInput(String[] str){
         if(str[0].length() != 0) {
             AnalizeTowers = new AnalizeForTowers(str);
-            if (AnalizeTowers.textAnalize() != 0) {
+            if (AnalizeTowers.textAnalize() != -1) {
                 this.numtry++;
                 int numStr = AnalizeTowers.textAnalize();
-                int numPos = 0;
-                for (int i = 0; i < numStr; i++) {
-                    for (int j = 0; j < str[i].length(); j++) {
-                        numPos++;
-                    }
-                }
-                changeStringStyle(textPane, numPos, str[numStr].length(), Color.red);
+                changeStringStyle(textPane, returnPositionInText(str,numStr), str[numStr].length(), Color.red);
                 JOptionPane.showMessageDialog(this,
                         "Вы ошиблись в " + (numStr + 1) + " строке. Ничего страшного, со всеми бывает!!!");
             } else {
                 panelHanoi.removeAllInfoAboutText();
+                int numErrorStr = 0;
                 for (int i = 0; i < str.length; i++) {
                     char[] chars = str[i].toCharArray();
-                    if (!panelHanoi.addMove(Character.getNumericValue(chars[5]), Character.getNumericValue(chars[7])))
+                    if (Character.getNumericValue(chars[5]) > 3 || Character.getNumericValue(chars[7]) > 3 ||
+                    Character.getNumericValue(chars[5]) < 1 || Character.getNumericValue(chars[7]) == Character.getNumericValue(chars[5])) {
+                        JOptionPane.showMessageDialog(this,
+                                "               Действие Move( " + Character.getNumericValue(chars[5]) + "," + Character.getNumericValue(chars[7]) + ")\n" +
+                                        "          не может быть выполненно. \n");
+                        changeStringStyle(textPane, returnPositionInText(str, i), str[i].length(), Color.blue);
                         break;
+                    } else if (!panelHanoi.addMove(Character.getNumericValue(chars[5]), Character.getNumericValue(chars[7]))) {
+                        JOptionPane.showMessageDialog(this,
+                                "               Действие Move( " + Character.getNumericValue(chars[5]) + "," + Character.getNumericValue(chars[7]) + ")\n" +
+                                        "            не может быть выполненно. \n" +
+                                        "Команды выполнятся до выделенной строчки\n");
+                        changeStringStyle(textPane, returnPositionInText(str, i), str[i].length(), Color.blue);
+                        break;
+                    }
+                    numErrorStr++;
                 }
-                panelHanoi.initializeTowers();
-                panelHanoi.setNumberSteps(0);
-                panelHanoi.startAnimacion();
+                if(numErrorStr != 0) {
+                    panelHanoi.initializeTowers();
+                    panelHanoi.setNumberSteps(0);
+                    panelHanoi.startAnimacion();
+                }
             }
         }
+    }
+
+    public int returnPositionInText(String[] str, int numStr){
+        int num = 0;
+        for(int i = 0; i < numStr; i++){
+            for(int j = 0; j < str[i].length(); j++){
+                num++;
+            }
+        }
+        return num;
     }
 
     public void changeStringStyle(JTextPane editor, int uk, int size, Color color){

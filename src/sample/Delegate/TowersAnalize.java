@@ -30,8 +30,9 @@ public class TowersAnalize implements IAnalizeText {
                         lex = "";
                 }
                 if(j == 5){
-                    if(!getNumb(lex))
+                    if(!getNumb(lex)) {
                         return i;
+                    }
                     else
                         lex = "";
                 }
@@ -55,7 +56,12 @@ public class TowersAnalize implements IAnalizeText {
                 }
             }
         }
-        return 0;
+        return -1;
+    }
+
+    @Override
+    public int[] getNumbers() {
+        return new int[0];
     }
 
     private boolean getLexMove(String string){

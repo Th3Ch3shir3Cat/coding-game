@@ -14,7 +14,6 @@ public class TowerBuilder implements FormBuilder {
     private JPanel panel;
     private JButton buttonStart;
     private JButton buttonBack;
-    private JButton buttonInput;
     private int width;
     private int height;
 
