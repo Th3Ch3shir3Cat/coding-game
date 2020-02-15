@@ -115,7 +115,7 @@ public class MainFrameFifteen extends JFrame implements ActionListener, ChangeLi
         buttonStart.setText("Сначала");
     }
 
-    public void checkInput(String[] str) {
+    public boolean checkInput(String[] str) {
         if (str[0].length() != 0) {
             game.setStrForMove(str);
             AnalizeTowers = new AnalizeForFifteen(str);
@@ -124,12 +124,15 @@ public class MainFrameFifteen extends JFrame implements ActionListener, ChangeLi
                 changeStringStyle(textpane, returnPositionInText(str,numStr), str[numStr].length(), Color.red);
                 JOptionPane.showMessageDialog(this,
                         "Вы ошиблись в " + (numStr + 1) + " строке. Ничего страшного, со всеми бывает!!!");
+                return false;
             }
             else{
                 masNumber = AnalizeTowers.getNumbers();
                 game.startAnimacion();
+                return true;
             }
         }
+        return false;
     }
 
     public int returnPositionInText(String[] str, int numStr){

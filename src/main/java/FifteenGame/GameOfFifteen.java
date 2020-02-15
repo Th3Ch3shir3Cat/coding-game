@@ -86,14 +86,22 @@ public class GameOfFifteen extends JPanel implements ActionListener {
                     checkOnCanMove(c1,c2,r1,r2);
                     // чекаем можно ли решать дальше
                     gameOver = isSolved();
+                    gameOver = isSolvable();
+                    if(gameOver){
+                        JOptionPane.showMessageDialog(fifteen,
+                                "Случилось страшное, игра зашла в тупик :(\n" +
+                                        "Но не расстраивайтесь!!!\n" +
+                                        "Половина всех комбинаций нерешаема, так что самое время\n" +
+                                        "начать сначала!!!");
+
+                    }
+
                 }
                 // перерисуем панель
                 repaint();
             }
         });
         timer = new Timer(VELOCIDAD, this);
-
-
         newGame();
 
     }
@@ -110,7 +118,6 @@ public class GameOfFifteen extends JPanel implements ActionListener {
             reset(); // reset in intial state
             shuffle(); // shuffle
         } while(!isSolvable()); // make it until grid be solvable
-
         gameOver = false;
     }
 
@@ -133,7 +140,12 @@ public class GameOfFifteen extends JPanel implements ActionListener {
         }
     }
 
-    private boolean isSolvable() {
+
+    public void setTiles(int[] mas){
+        this.tiles = mas;
+    }
+
+    public boolean isSolvable() {
         int countInversions = 0;
 
         for (int i = 0; i < nbTiles; i++) {
@@ -150,7 +162,7 @@ public class GameOfFifteen extends JPanel implements ActionListener {
         return this.tiles;
     }
 
-    private boolean isSolved() {
+    public boolean isSolved() {
         if (tiles[tiles.length - 1] != 0)
             return false;
 
@@ -234,7 +246,6 @@ public class GameOfFifteen extends JPanel implements ActionListener {
     public boolean checkOnCanMove(int c1, int c2, int r1, int r2){
         // конвертируем в 1д координаты
         int clickPos = r1 * size + c1;
-        System.out.println(clickPos);
         int dir = 0;
 
         //ищем направление для нескольких ходов плитки одновременно
@@ -284,11 +295,6 @@ public class GameOfFifteen extends JPanel implements ActionListener {
             }
             else{
                 if (gameOver){
-                    JOptionPane.showMessageDialog(this,
-                            "Случилось страшное, игра зашла в тупик :(\n" +
-                                    "Но не расстраивайтесь!!!\n" +
-                                    "Половина всех комбинаций нерешаема, так что самое время\n" +
-                                    "начать сначала!!!");
                 }
                 else {
                     JOptionPane.showMessageDialog(this,

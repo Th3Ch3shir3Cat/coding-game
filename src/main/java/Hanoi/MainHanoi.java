@@ -146,7 +146,7 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
         labelInformation.setVisible(true);
     }
 
-    public void checkInput(String[] str){
+    public boolean checkInput(String[] str){
         if(str[0].length() != 0) {
             AnalizeTowers = new AnalizeForTowers(str);
             if (AnalizeTowers.textAnalize() != -1) {
@@ -155,6 +155,7 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
                 changeStringStyle(textPane, returnPositionInText(str,numStr), str[numStr].length(), Color.red);
                 JOptionPane.showMessageDialog(this,
                         "Вы ошиблись в " + (numStr + 1) + " строке. Ничего страшного, со всеми бывает!!!");
+                return false;
             } else {
                 panelHanoi.removeAllInfoAboutText();
                 int numErrorStr = 0;
@@ -181,9 +182,11 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
                     panelHanoi.initializeTowers();
                     panelHanoi.setNumberSteps(0);
                     panelHanoi.startAnimacion();
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     public int returnPositionInText(String[] str, int numStr){
