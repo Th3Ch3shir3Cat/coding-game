@@ -3,14 +3,13 @@ package FifteenGame;
 import java.util.HashSet;
 import java.util.Set;
 
+
 public class Board {
 
     private int[][] blocks; //   Наше поле. пустое место будем обозначать нулем.
     private int zeroX;    // это нам пригодится в будущем - координаты нуля
     private int zeroY;
     private int h; //  мера
-
-
 
     public Board(int[][] blocks) {
         int[][] blocks2 = deepCopy(blocks);   //   копируем, так как нам нужно быть уверенными в неизменяемости
@@ -47,7 +46,6 @@ public class Board {
         return h == 0;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -79,9 +77,11 @@ public class Board {
         return boardList;
     }
 
+
     private int[][] getNewBlock() { //  опять же, для неизменяемости
         return deepCopy(blocks);
     }
+
 
     private Board chng(int[][] blocks2, int x1, int y1, int x2, int y2) {  //  в этом методе меняем два соседних поля
 
@@ -92,7 +92,6 @@ public class Board {
             return new Board(blocks2);
         } else
             return null;
-
     }
 
 
@@ -106,6 +105,7 @@ public class Board {
         }
         return s.toString();
     }
+
 
     private static int[][] deepCopy(int[][] original) {
         if (original == null) {
@@ -121,5 +121,6 @@ public class Board {
         }
         return result;
     }
+
 
 }

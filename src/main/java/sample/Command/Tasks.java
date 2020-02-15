@@ -43,8 +43,8 @@ public class Tasks {
 
     }
 
-
     private void executeCommand(Command command) {
         command.execute(director);
     }
+
 }

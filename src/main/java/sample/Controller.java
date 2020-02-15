@@ -1,8 +1,5 @@
 package sample;
-
 import sample.Command.Tasks;
-
-import java.io.IOException;
 
 public class Controller {
 
@@ -11,7 +8,6 @@ public class Controller {
         Tasks tasks = new Tasks();
         tasks.init();
     }
-
 
 
 }

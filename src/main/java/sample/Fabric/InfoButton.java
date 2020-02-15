@@ -40,10 +40,7 @@ public class InfoButton implements Button {
         frame.setVisible(true);
 
     }
-
-
     @Override
     public void onClick() {
-
     }
 }

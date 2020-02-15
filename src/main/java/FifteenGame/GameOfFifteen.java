@@ -95,7 +95,6 @@ public class GameOfFifteen extends JPanel implements ActionListener {
                                         "начать сначала!!!");
 
                     }
-
                 }
                 // перерисуем панель
                 repaint();
@@ -154,7 +153,6 @@ public class GameOfFifteen extends JPanel implements ActionListener {
                     countInversions++;
             }
         }
-
         return countInversions % 2 == 0;
     }
 
@@ -170,7 +168,6 @@ public class GameOfFifteen extends JPanel implements ActionListener {
             if (tiles[i] != i + 1)
                 return false;
         }
-
         return true;
     }
 

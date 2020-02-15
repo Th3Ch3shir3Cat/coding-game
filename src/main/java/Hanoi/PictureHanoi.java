@@ -71,7 +71,6 @@ public class PictureHanoi extends JPanel implements ActionListener {
         g.dispose();
     }
 
-
     //Инициализируем сцену
     private void initializePanel(){
         setBackground(Color.black);
@@ -105,7 +104,11 @@ public class PictureHanoi extends JPanel implements ActionListener {
         moveComplete = false;
     }
 
-    public void goTowers(Round round, int num){
+    public Towers[] getTowers(){
+        return this.towers;
+    }
+
+    public boolean goTowers(Round round, int num){
         int indexTower = num;
         for(int i = 0; i < 3; i++) {
             if(towers[i].checkDisksInTower(round.getX(),round.getX() + round.getImg().getWidth(null)))
@@ -123,7 +126,6 @@ public class PictureHanoi extends JPanel implements ActionListener {
                 round.setStartX(round.getX());
                 round.setStartY(round.getY());
                 round.setNumberTower(indexTower);
-
             } else if (towers[indexTower].getNumberOfDisksOnTower() == 0) {
                 execute(new MoveDisks(round.getNumber(),num,indexTower));
                 towers[indexTower].addRound(round);
@@ -138,17 +140,20 @@ public class PictureHanoi extends JPanel implements ActionListener {
             } else {
                 round.setX(round.getStartX());
                 round.setY(round.getStartY());
+                return false;
             }
         }
         else{
             round.setX(round.getStartX());
             round.setY(round.getStartY());
+            return false;
         }
         if(towers[2].getNumberOfDisksOnTower() == this.numberOfDisks){
             hanoi.resultComplete();
             JOptionPane.showMessageDialog(this,
                     "Умница, а теперь попробуй написать код!!!");
         }
+        return true;
     }
 
     public boolean addMove(int num1, int num2){
@@ -365,5 +370,6 @@ public class PictureHanoi extends JPanel implements ActionListener {
     public void execute(MoveDisks move){
         history.push(move, new Memento(this));
     }
+
 
 }
