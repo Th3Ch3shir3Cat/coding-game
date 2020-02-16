@@ -33,7 +33,7 @@ public class GameOfFifteen extends JPanel implements ActionListener {
     private static final int VELOCIDAD = 1000;
 
     private Solve solve; //Решение
-    private List<Board> result;
+    private transient List<Board> result;
     public int indexSolve; //Индекс для прохождения по решению
 
     private MainFrameFifteen fifteen;
@@ -86,15 +86,6 @@ public class GameOfFifteen extends JPanel implements ActionListener {
                     checkOnCanMove(c1,c2,r1,r2);
                     // чекаем можно ли решать дальше
                     gameOver = isSolved();
-                    gameOver = isSolvable();
-                    if(gameOver){
-                        JOptionPane.showMessageDialog(fifteen,
-                                "Случилось страшное, игра зашла в тупик :(\n" +
-                                        "Но не расстраивайтесь!!!\n" +
-                                        "Половина всех комбинаций нерешаема, так что самое время\n" +
-                                        "начать сначала!!!");
-
-                    }
                 }
                 // перерисуем панель
                 repaint();

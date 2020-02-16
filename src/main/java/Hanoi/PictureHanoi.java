@@ -269,8 +269,8 @@ public class PictureHanoi extends JPanel implements ActionListener {
         repaint();
     }
 
-    public void setNumberSteps(int num){
-        this.numberOfSteps = num;
+    public void setNumberSteps(int numberSteps) {
+        this.numberSteps = numberSteps;
     }
 
     public static int posicionXRound(int numberOfDisk, int torre) {

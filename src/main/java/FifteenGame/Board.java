@@ -22,8 +22,8 @@ public class Board {
                     h += 1;
                 }
                 if (blocks[i][j] == 0) {
-                    zeroX = (int) i;
-                    zeroY = (int) j;
+                    zeroX = i;
+                    zeroY = j;
                 }
             }
         }
@@ -73,7 +73,6 @@ public class Board {
         boardList.add(chng(getNewBlock(), zeroX, zeroY, zeroX, zeroY - 1));
         boardList.add(chng(getNewBlock(), zeroX, zeroY, zeroX - 1, zeroY));
         boardList.add(chng(getNewBlock(), zeroX, zeroY, zeroX + 1, zeroY));
-
         return boardList;
     }
 
