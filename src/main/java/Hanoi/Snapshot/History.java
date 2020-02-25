@@ -51,7 +51,6 @@ public class History {
             return false;
         }
         pair.getMem().restore();
-        pair.getMove().execute();
         return true;
     }
 

@@ -26,7 +26,4 @@ public class MoveDisks {
         return toTowers;
     }
 
-    public void execute(){
-
-    }
 }

@@ -32,7 +32,7 @@ public class GameOfFifteen extends JPanel implements ActionListener {
     public Timer timer;
     private static final int VELOCIDAD = 1000;
 
-    private Solve solve; //Решение
+    private transient Solve solve; //Решение
     private transient List<Board> result;
     public int indexSolve; //Индекс для прохождения по решению
 

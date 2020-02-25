@@ -29,12 +29,12 @@ public class MainFrameFifteen extends JFrame implements ActionListener, ChangeLi
     public int[] masNumber; //массив шагов
 
     private GameOfFifteen game;
-    private Style heading = null; // стиль заголовка
-    private Style normal = null; // стиль текста
+    private transient Style heading = null; // стиль заголовка
+    private transient Style normal = null; // стиль текста
     private final String STYLE_heading = "heading",
             STYLE_normal = "normal",
             FONT_style = "Times New Roman";
-    private AnalizeForFifteen AnalizeTowers;
+    private transient AnalizeForFifteen AnalizeTowers;
 
 
     public MainFrameFifteen(JPanel panelInfo, JLabel labelInfo, JSpinner spinner, JButton button, int width, int height) {
@@ -54,7 +54,7 @@ public class MainFrameFifteen extends JFrame implements ActionListener, ChangeLi
         this.textpane = new JTextPane();
         this.buttonLog = new JButton("Выполнить");
         initializeComponent();
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
 

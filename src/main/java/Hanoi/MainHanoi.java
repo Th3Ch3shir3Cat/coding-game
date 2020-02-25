@@ -26,7 +26,7 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
     private JTextPane textPane;
     private int Width;
     private int Height;
-    private AnalizeForTowers AnalizeTowers;
+    private transient AnalizeForTowers AnalizeTowers;
 
 
     private static int numtry = 1;
@@ -50,7 +50,7 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
         this.setResizable(false);
         inicializeComponents();
         this.setVisible(true);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
 
@@ -97,7 +97,6 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
             } else {
                 if (buttonStart.getText().equals("Сначала")) {
                     remove(panelHanoi);
-                    this.numtry = 1;
                     buttonStart.setText(panelHanoi.getState().start());
                     panelHanoi = new PictureHanoi(this, Integer.parseInt(spinnerNumberDisks.getValue().toString()));
                     add(panelHanoi, BorderLayout.CENTER);
@@ -150,7 +149,6 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
         if(str[0].length() != 0) {
             AnalizeTowers = new AnalizeForTowers(str);
             if (AnalizeTowers.textAnalize() != -1) {
-                this.numtry++;
                 int numStr = AnalizeTowers.textAnalize();
                 changeStringStyle(textPane, returnPositionInText(str,numStr), str[numStr].length(), Color.red);
                 JOptionPane.showMessageDialog(this,

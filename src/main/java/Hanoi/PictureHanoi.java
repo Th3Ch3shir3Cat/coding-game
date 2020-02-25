@@ -13,16 +13,16 @@ public class PictureHanoi extends JPanel implements ActionListener {
 
     private MainHanoi hanoi; //Панель родитель
 
-    private Round[] rounds; //Диски
+    private transient Round[] rounds; //Диски
 
     private int numberOfDisks; //Кол-во дисков
 
-    private Towers[] towers;
+    private transient Towers[] towers;
 
     private Timer timer;
 
-    private State state;
-    private History history;
+    private transient State state;
+    private transient History history;
     private int step;
 
     private int numberSteps;
@@ -31,9 +31,9 @@ public class PictureHanoi extends JPanel implements ActionListener {
     private int topDisks;
     private int X,Y;
 
-    private MoveDisks[] moves;
+    private transient MoveDisks[] moves;
 
-    private MoveDisks[] moveDIsks;
+    private transient MoveDisks[] moveDIsks;
     private int numberOfSteps;
     private boolean moveComplete;
 
@@ -236,6 +236,8 @@ public class PictureHanoi extends JPanel implements ActionListener {
                     moveComplete = true;
                 }
                 break;
+            default:
+                break;
         }
         if (moveComplete) {
             step = 1;
@@ -292,6 +294,8 @@ public class PictureHanoi extends JPanel implements ActionListener {
                 return 50 + k;
             case 8:
                 return 40 + k;
+            default:
+                break;
         }
         return 0;
     }
@@ -314,6 +318,8 @@ public class PictureHanoi extends JPanel implements ActionListener {
                 return 98;
             case 8:
                 return 71;
+            default:
+                break;
         }
         return 0;
     }
