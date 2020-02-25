@@ -20,8 +20,8 @@ public class MainFrameFifteen extends JFrame implements ActionListener, ChangeLi
     private JLabel labelInformation;
     private JSpinner spinnerNumberSquad;
     private JPanel panel;
-    private int width;
-    private int height;
+    private int Width;
+    private int Height;
     private JPanel panelLog;
     private JButton buttonLog;
     private JTextPane textpane;
@@ -39,13 +39,13 @@ public class MainFrameFifteen extends JFrame implements ActionListener, ChangeLi
 
     public MainFrameFifteen(JPanel panelInfo, JLabel labelInfo, JSpinner spinner, JButton button, int width, int height) {
         super("Пятнашки");
-        this.width = width;
-        this.height = height;
+        this.Width = width;
+        this.Height = height;
         this.panel = panelInfo;
         this.labelInformation = labelInfo;
         this.spinnerNumberSquad = spinner;
         this.buttonStart = button;
-        this.setSize(this.width, this.height);
+        this.setSize(this.Width, this.Height);
         this.setLayout(new BorderLayout());
         this.setLocationRelativeTo(null);
         this.setResizable(false);

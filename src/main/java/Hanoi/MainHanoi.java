@@ -24,8 +24,8 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
     private JPanel panel;
     private JPanel panelLog;
     private JTextPane textPane;
-    private int width;
-    private int height;
+    private int Width;
+    private int Height;
     private AnalizeForTowers AnalizeTowers;
 
 
@@ -39,11 +39,11 @@ public class MainHanoi extends JFrame implements ActionListener, ChangeListener 
         this.panelLog = new JPanel();
         this.labelInformation = labelInfo;
         this.spinnerNumberDisks = spinner;
-        this.width = width;
-        this.height = height;
+        this.Width = width;
+        this.Height = height;
         this.buttonStart = button;
         this.buttonBack = buttonBack;
-        this.setSize(this.width, this.height);
+        this.setSize(this.Width, this.Height);
         this.setVisible(true);
         this.setLayout(new BorderLayout());
         this.setLocationRelativeTo(null);

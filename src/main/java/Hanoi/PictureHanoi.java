@@ -29,7 +29,7 @@ public class PictureHanoi extends JPanel implements ActionListener {
     private int numerusInput;
 
     private int topDisks;
-    private int x,y;
+    private int X,Y;
 
     private MoveDisks[] moves;
 
@@ -95,8 +95,8 @@ public class PictureHanoi extends JPanel implements ActionListener {
             towers[0].addRound(rounds[i]);
         }
 
-        x = towers[0].getLastRound().getX();
-        y = towers[0].getLastRound().getY();
+        X = towers[0].getLastRound().getX();
+        Y = towers[0].getLastRound().getY();
 
         topDisks = 1;
         numberOfSteps = 1;
@@ -200,9 +200,9 @@ public class PictureHanoi extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent actionEvent) {
         switch (step) {
             case 1: // движение вверх
-                if (y > 30) { // 30 - максимум, чтобы поднять фишку
-                    y--;
-                    rounds[topDisks - 1].setY(y);
+                if (Y > 30) { // 30 - максимум, чтобы поднять фишку
+                    Y--;
+                    rounds[topDisks - 1].setY(Y);
                 } else {
                     if (moveDIsks[numberOfSteps].getFromTowers() - 1 < moveDIsks[numberOfSteps].getToTowers() - 1) {
                         step = 2; // двигаться вправо
@@ -212,26 +212,26 @@ public class PictureHanoi extends JPanel implements ActionListener {
                 }
                 break;
             case 2: // двигаться вправо
-                if (x < posicionXRound(topDisks, moveDIsks[numberOfSteps].getToTowers())) { // путь к башне назначения
-                    x++;
-                    rounds[topDisks - 1].setX(x);
+                if (X < posicionXRound(topDisks, moveDIsks[numberOfSteps].getToTowers())) { // путь к башне назначения
+                    X++;
+                    rounds[topDisks - 1].setX(X);
                 } else {
                     step = 4;
                 }
                 break;
             case 3: // двигаться влево
-                if (x > posicionXRound(topDisks, moveDIsks[numberOfSteps].getToTowers())) { // путь к башне назначения
-                    x--;
-                    rounds[topDisks - 1].setX(x);
+                if (X > posicionXRound(topDisks, moveDIsks[numberOfSteps].getToTowers())) { // путь к башне назначения
+                    X--;
+                    rounds[topDisks - 1].setX(X);
                 } else {
                     step = 4;
                 }
                 break;
             case 4: // двигаться вниз
                 int nivel = towers[moveDIsks[numberOfSteps].getToTowers() - 1].getNumberOfDisksOnTower() + 1;
-                if (y < posicionYRound(nivel)) {
-                    y++;
-                    rounds[topDisks - 1].setY(y);
+                if (Y < posicionYRound(nivel)) {
+                    Y++;
+                    rounds[topDisks - 1].setY(Y);
                 } else {
                     moveComplete = true;
                 }
@@ -242,10 +242,10 @@ public class PictureHanoi extends JPanel implements ActionListener {
             towers[moveDIsks[numberOfSteps].getToTowers() - 1].setNumberOfDisksOnTower(towers[moveDIsks[numberOfSteps].getToTowers() - 1].getNumberOfDisksOnTower() + 1);
             towers[moveDIsks[numberOfSteps].getToTowers() - 1].addRound(rounds[moveDIsks[numberOfSteps].getNumberOfDisks() - 1]);
             towers[moveDIsks[numberOfSteps].getFromTowers() - 1].removeRound();
-            rounds[moveDIsks[numberOfSteps].getNumberOfDisks()-1].setX(x);
-            rounds[moveDIsks[numberOfSteps].getNumberOfDisks()-1].setY(y);
-            rounds[moveDIsks[numberOfSteps].getNumberOfDisks()-1].setStartX(x);
-            rounds[moveDIsks[numberOfSteps].getNumberOfDisks()-1].setStartY(y);
+            rounds[moveDIsks[numberOfSteps].getNumberOfDisks()-1].setX(X);
+            rounds[moveDIsks[numberOfSteps].getNumberOfDisks()-1].setY(Y);
+            rounds[moveDIsks[numberOfSteps].getNumberOfDisks()-1].setStartX(X);
+            rounds[moveDIsks[numberOfSteps].getNumberOfDisks()-1].setStartY(Y);
             numberOfSteps++;
             if(numberOfSteps == numerusInput && numerusInput != 0){
                 timer.stop();
@@ -262,8 +262,8 @@ public class PictureHanoi extends JPanel implements ActionListener {
             } else {
                 moveComplete = false;
                 topDisks = moveDIsks[numberOfSteps].getNumberOfDisks();
-                x = rounds[topDisks - 1].getX();
-                y = rounds[topDisks - 1].getY();
+                X = rounds[topDisks - 1].getX();
+                Y = rounds[topDisks - 1].getY();
             }
         }
         repaint();
