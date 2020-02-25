@@ -42,10 +42,7 @@ public class FifteenBuilder implements FormBuilder {
 
     }
 
-    @Override
-    public void resultCompleted() {
 
-    }
 
     public MainFrameFifteen getResult(){
         return new MainFrameFifteen(this.panel,this.labelInformation,this.spinnerNumberSquad,this.buttonStart,this.width,this.height);

@@ -45,10 +45,6 @@ public class TowerBuilder implements FormBuilder {
 
     }
 
-    @Override
-    public void resultCompleted() {
-
-    }
 
     public MainHanoi getResult(){
         return new MainHanoi(this.panel,this.labelInformation,this.spinnerNumberDisks,this.buttonStart,this.buttonBack,this.width,this.height);

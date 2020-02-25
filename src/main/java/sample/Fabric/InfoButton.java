@@ -34,7 +34,7 @@ public class InfoButton implements Button {
         label.setFont(new Font("Dialog", Font.BOLD, 12));
         frame.getContentPane().add(panel);
         panel.add(label);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         frame.setSize(504,315);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -42,5 +42,6 @@ public class InfoButton implements Button {
     }
     @Override
     public void onClick() {
+        //not necessary
     }
 }
